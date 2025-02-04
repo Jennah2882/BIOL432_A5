@@ -1,0 +1,28 @@
+---
+title: "BIOL432_A5"
+author: "Jennah Levac"
+date: "2025-02-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+setwd("C:/statistics/R/repositories/BIOL432_A1/BIOL432_A1/")
+MData<- read.csv("measurements.csv")
+```
+```{r}
+library(dplyr)
+
+ShortData<- MData %>% 
+  mutate(Sp = sub("([A-Z])[^ ]*(.*)", "\\1.\\2", Species)) %>%
+  select(Sp, everything(), -Species)
+print(ShortData)
+```
+The above code includes:
+[A-Z] which captures the first letter of the genus
+[^ ]* which matches zero or more characters that are not spaces
+(.*) which matches the species (everything after the space)
+\\1. which replaces the matched text with the first letter of the genus followed by a period
+\\2 which replaces the matched text with the species name
+```{r}
+write.csv(ShortData, "ShortData.csv", row.names = FALSE)
+```
